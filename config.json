@@ -1,0 +1,40 @@
+{
+  "output_directory": "out",
+  "base_url": "https://yarcheplus.ru",
+  "chain_name": "Ярче",
+  "chain_id": "113",
+  "parser_id": "mc_test",
+  "tt_region": "msk",
+  "part_number": "p1",
+  "tt_id": [
+    "Москва, Вересаева 10",
+    "Москва, Рябиновая улица, 45",
+    "Москва, Вересаева 8"
+  ],
+  "categories": {
+    "Москва, Вересаева 10": {
+      "urls": [],
+      "ids": [216]
+    },
+    "Москва, Вересаева 8": {
+      "urls": ["catalog/myaso-ptitsa-176"],
+      "ids": []
+    }
+  },
+  "sku_image_enable": true,
+  "sku_parameters_enable": true,
+  "promo_only": false,
+  "delay_range_s": 3,
+  "max_retries": 5,
+  "backoff_factor": 1,
+  "headers": "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 OPR/83.0.4254.27",
+  "logs_dir": "dir",
+  "mail_data": [
+    "login",
+    "password",
+    ["host", "port"]
+  ],
+  "mail": [
+
+  ]
+}
