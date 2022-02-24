@@ -249,13 +249,32 @@ def get_products_data(driver, address: str, url: str) -> list:
         # Проверяем правильность цен
         if products_list[i]['quant']['previousPricePerUnit'] is not None:
             if products_list[i]['quant']['previousPricePerUnit'] > products_list[i]['quant']['pricePerUnit']:
-                parsed_data.append(products_list[i]['quant']['previousPricePerUnit'])
-                parsed_data.append(products_list[i]['quant']['pricePerUnit'])
+
+                if type(products_list[i]['quant']['previousPricePerUnit']) == float:
+                    price = ("%.1f" % products_list[i]['quant']['previousPricePerUnit'])
+                    if '.0' in str(price):
+                        parsed_data.append(int(str(price)[:-2]))
+                    else:
+                        parsed_data.append(price)
+                else:
+                    parsed_data.append(products_list[i]['quant']['previousPricePerUnit'])
+
+                if type(products_list[i]['quant']['pricePerUnit']) == float:
+                    price = ("%.1f" % products_list[i]['quant']['pricePerUnit'])
+                    if '.0' in str(price):
+                        parsed_data.append(int(str(price)[:-2]))
+                    else:
+                        parsed_data.append(price)
             else:
                 parsed_data.append('')
                 parsed_data.append('')
         else:
-            parsed_data.append(products_list[i]['quant']['pricePerUnit'])
+            if type(products_list[i]['quant']['pricePerUnit']) == float:
+                price = ("%.1f" % products_list[i]['quant']['pricePerUnit'])
+                if '.0' in str(price):
+                    parsed_data.append(int(str(price)[:-2]))
+                else:
+                    parsed_data.append(price)
             parsed_data.append('')
 
         parsed_data.append('')  # price_card
@@ -271,13 +290,14 @@ def get_products_data(driver, address: str, url: str) -> list:
             parsed_data.append('0')
 
         parsed_data.append('')  # sku_barcode
+
         if 'арт.' in products_list[i]['name']:
             index = products_list[i]['name'].find('арт.')
-            article = products_list[i]['name'][index+5::]
+            article = products_list[i]['name'][index+5::].split(' ')[0]
             parsed_data.append(article)
         elif 'Арт.' in products_list[i]['name']:
             index = products_list[i]['name'].find('Арт.')
-            article = products_list[i]['name'][index + 5::]
+            article = products_list[i]['name'][index + 5::].split(' ')[0]
             parsed_data.append(article)
         else:
             parsed_data.append('')  # sku_article
