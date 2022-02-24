@@ -271,7 +271,17 @@ def get_products_data(driver, address: str, url: str) -> list:
             parsed_data.append('0')
 
         parsed_data.append('')  # sku_barcode
-        parsed_data.append('')  # sku_article
+        if 'арт.' in products_list[i]['name']:
+            index = products_list[i]['name'].find('арт.')
+            article = products_list[i]['name'][index+5::]
+            parsed_data.append(article)
+        elif 'Арт.' in products_list[i]['name']:
+            index = products_list[i]['name'].find('Арт.')
+            article = products_list[i]['name'][index + 5::]
+            parsed_data.append(article)
+        else:
+            parsed_data.append('')  # sku_article
+
         parsed_data.append(format_string(products_list[i]['name']))  # sku_name
         parsed_data.append(f'{products_list[i]["categories"][0]["name"]} | '
                            f'{products_list[i]["categories"][1]["name"]}')  # sku_category
