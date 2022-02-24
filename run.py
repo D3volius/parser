@@ -205,20 +205,20 @@ def get_products_data(driver, address: str, url: str) -> list:
     products_list = category_page_json['api']['productList']['list']
 
     # Проверяем наличие кнопки "Показать ещё", если есть - подгружаем ещё товары
-    button_check = True
-    while button_check is True:
-        try:
-            driver.find_element(By.CLASS_NAME, 'b3G7Ab9Kf').send_keys(Keys.ENTER)
-            time.sleep(actions_delay())
-            driver.execute_script(f'window.open("{driver.current_url}")')
-            driver.switch_to.window(driver.window_handles[1])
-            category_page_json = get_page_json(driver.page_source)
-            products_list.extend(category_page_json['api']['productList']['list'])
-            driver.close()
-            driver.switch_to.window(driver.window_handles[0])
-            time.sleep(actions_delay())
-        except NoSuchElementException:
-            button_check = False
+    # button_check = True
+    # while button_check is True:
+    #     try:
+    #         driver.find_element(By.CLASS_NAME, 'b3G7Ab9Kf').send_keys(Keys.ENTER)
+    #         time.sleep(actions_delay())
+    #         driver.execute_script(f'window.open("{driver.current_url}")')
+    #         driver.switch_to.window(driver.window_handles[1])
+    #         category_page_json = get_page_json(driver.page_source)
+    #         products_list.extend(category_page_json['api']['productList']['list'])
+    #         driver.close()
+    #         driver.switch_to.window(driver.window_handles[0])
+    #         time.sleep(actions_delay())
+    #     except NoSuchElementException:
+    #         button_check = False
 
     products = driver.find_elements(By.CLASS_NAME, 'c3s8K6a5X')
 
@@ -265,6 +265,8 @@ def get_products_data(driver, address: str, url: str) -> list:
                         parsed_data.append(int(str(price)[:-2]))
                     else:
                         parsed_data.append(price)
+                else:
+                    parsed_data.append(products_list[i]['quant']['pricePerUnit'])
             else:
                 parsed_data.append('')
                 parsed_data.append('')
@@ -275,6 +277,8 @@ def get_products_data(driver, address: str, url: str) -> list:
                     parsed_data.append(int(str(price)[:-2]))
                 else:
                     parsed_data.append(price)
+            else:
+                parsed_data.append(products_list[i]['quant']['pricePerUnit'])
 
             parsed_data.append('')
 
