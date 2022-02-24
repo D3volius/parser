@@ -1,0 +1,1 @@
+Из config.json я удалил свои mail_data и mail, вам нужно указать свои.
