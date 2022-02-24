@@ -275,7 +275,8 @@ def get_products_data(driver, address: str, url: str) -> list:
                     parsed_data.append(int(str(price)[:-2]))
                 else:
                     parsed_data.append(price)
-            parsed_data.append('')
+            else:
+                parsed_data.append('')
 
         parsed_data.append('')  # price_card
         parsed_data.append('')  # price_card_promo
