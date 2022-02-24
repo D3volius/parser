@@ -201,6 +201,8 @@ def get_products_data(driver, address: str, url: str) -> list:
     parsed_data_list = []
     server_ip = socket.gethostbyname(socket.gethostname())
     driver.get(f'{config_data["base_url"]}/{url}')
+    category_page_json = get_page_json(driver.page_source)
+    products_list = category_page_json['api']['productList']['list']
 
     # Проверяем наличие кнопки "Показать ещё", если есть - подгружаем ещё товары
     button_check = True
@@ -208,12 +210,16 @@ def get_products_data(driver, address: str, url: str) -> list:
         try:
             driver.find_element(By.CLASS_NAME, 'b3G7Ab9Kf').send_keys(Keys.ENTER)
             time.sleep(actions_delay())
+            driver.execute_script(f'window.open("{driver.current_url}")')
+            driver.switch_to.window(driver.window_handles[1])
+            category_page_json = get_page_json(driver.page_source)
+            products_list.extend(category_page_json['api']['productList']['list'])
+            driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+            time.sleep(actions_delay())
         except NoSuchElementException:
             button_check = False
 
-    driver.refresh()
-    category_page_json = get_page_json(driver.page_source)
-    products_list = category_page_json['api']['productList']['list']
     products = driver.find_elements(By.CLASS_NAME, 'c3s8K6a5X')
 
     # Проверяем товары. Если нужны только акционные - обычные пропускаем
