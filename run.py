@@ -283,8 +283,12 @@ def get_products_data(driver, address: str, url: str) -> list:
             parsed_data.append('')  # sku_article
 
         parsed_data.append(format_string(products_list[i]['name']))  # sku_name
-        parsed_data.append(f'{products_list[i]["categories"][0]["name"]} | '
-                           f'{products_list[i]["categories"][1]["name"]}')  # sku_category
+
+        try:
+            parsed_data.append(f'{products_list[i]["categories"][0]["name"]} | '
+                               f'{products_list[i]["categories"][1]["name"]}')  # sku_category
+        except TypeError:
+            parsed_data.append('')
 
         sku_dict = {'sku_brand': '',
                     'sku_country': '',
