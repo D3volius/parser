@@ -367,7 +367,7 @@ def get_products_data(driver, address: str, url: str) -> list:
                 if '%' in name_list[j]:
                     sku_dict['sku_fat_min'] = name_list[j].replace('%', '')
 
-        if 'шт' in products_list[i]['name']:
+        if 'шт' in products_list[i]['name'][-4:]:
             name_list = products_list[i]['name'].split(' ')
             for j in range(len(name_list)):
                 if 'шт' in name_list[j]:
